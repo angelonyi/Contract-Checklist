@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contract Checklist Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <h1>Contract Checklist Generator</h1>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- VIEW: Landing Page -->
+    <section id="view-landing" class="view active">
+      <div class="hero">
+        <h2>Review your contract with confidence.</h2>
+        <p>Generate a practical checklist of key contract areas to review before signing.</p>
+        <button id="btn-start" class="btn btn-primary btn-large">Create My Checklist</button>
+      </div>
+
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">📑</div>
+          <h3>Structured Review</h3>
+          <p>Break a contract review into clear, manageable sections.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✅</div>
+          <h3>Track Your Progress</h3>
+          <p>Check off items as you review them.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3>Know What to Look For</h3>
+          <p>Highlight important areas such as payment, scope, intellectual property and termination.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: Form -->
+    <section id="view-form" class="view hidden">
+      <div class="form-header">
+        <h2>Contract Details</h2>
+        <p>Tell us about the contract to generate a tailored checklist.</p>
+      </div>
+      
+      <form id="contract-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="contractType">Contract Type <span class="required">*</span></label>
+            <select id="contractType" required>
+              <option value="" disabled selected>Select a type...</option>
+              <option value="Freelance Agreement">Freelance Agreement</option>
+              <option value="Employment Contract">Employment Contract</option>
+              <option value="Service Agreement">Service Agreement</option>
+              <option value="Consulting Agreement">Consulting Agreement</option>
+              <option value="Non-Disclosure Agreement">Non-Disclosure Agreement</option>
+              <option value="Partnership Agreement">Partnership Agreement</option>
+              <option value="Sales Agreement">Sales Agreement</option>
+              <option value="Lease Agreement">Lease Agreement</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="userRole">Your Role <span class="required">*</span></label>
+            <select id="userRole" required>
+              <option value="" disabled selected>Select your role...</option>
+              <option value="Freelancer">Freelancer</option>
+              <option value="Employee">Employee</option>
+              <option value="Employer">Employer</option>
+              <option value="Client">Client</option>
+              <option value="Contractor">Contractor</option>
+              <option value="Consultant">Consultant</option>
+              <option value="Business Owner">Business Owner</option>
+              <option value="Tenant">Tenant</option>
+              <option value="Landlord">Landlord</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="otherParty">Other Party <span class="required">*</span></label>
+            <input type="text" id="otherParty" required placeholder="e.g. Acme Corp">
+          </div>
+
+          <div class="form-group">
+            <label for="jurisdiction">Jurisdiction / Country <span class="required">*</span></label>
+            <input type="text" id="jurisdiction" required placeholder="e.g. Nigeria">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Contract Description (Optional)</label>
+          <textarea id="description" rows="3" placeholder="Briefly describe what this contract is about..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="btn-back-form" class="btn btn-secondary">Back</button>
+          <button type="submit" class="btn btn-primary">Generate Checklist</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- VIEW: Loading -->
+    <section id="view-loading" class="view hidden">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <h2>Building your checklist...</h2>
+        <p>Analyzing contract details and generating relevant sections.</p>
+      </div>
+    </section>
+
+    <!-- VIEW: Results -->
+    <section id="view-results" class="view hidden">
+      <div class="results-header">
+        <h2>Your Contract Review Checklist</h2>
+        <div class="actions">
+          <button id="btn-copy" class="btn btn-secondary btn-sm">Copy Checklist</button>
+          <button id="btn-reset" class="btn btn-secondary btn-sm danger">Reset Progress</button>
+          <button id="btn-new" class="btn btn-primary btn-sm">Start New Checklist</button>
+        </div>
+      </div>
+      <div id="copy-toast" class="toast hidden">Checklist copied to clipboard!</div>
+
+      <div class="summary-card">
+        <div class="summary-item">
+          <span class="summary-label">Type</span>
+          <span class="summary-value" id="sum-type"></span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Role</span>
+          <span class="summary-value" id="sum-role"></span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Other Party</span>
+          <span class="summary-value" id="sum-party"></span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Jurisdiction</span>
+          <span class="summary-value" id="sum-jurisdiction"></span>
+        </div>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-header">
+          <h3>Review Progress</h3>
+          <span id="progress-text">0 of 0 items completed</span>
+        </div>
+        <div class="progress-bar-container">
+          <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div id="checklist-container" class="checklist-container">
+        <!-- Checklist categories and items injected via JS -->
+      </div>
+      
+    </section>
+  </main>
+
+  <footer class="container">
+    <div class="disclaimer">
+      <p><strong>Disclaimer:</strong> This tool provides general informational guidance and is not legal advice. For legal questions or advice about a specific contract, consult a qualified legal professional.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
